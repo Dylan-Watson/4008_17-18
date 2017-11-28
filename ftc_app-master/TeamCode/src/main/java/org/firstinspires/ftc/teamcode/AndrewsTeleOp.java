@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -22,9 +21,9 @@ public class AndrewsTeleOp extends OpMode {
     @Override
     public void init(){
         robot.init(hardwareMap);
-        robot.jewelManipulator.setPosition(jewelClosePos);
-        robot.manipLeft.setPosition(manipLeftClosed);
-        robot.manipLeft.setPosition(manipRightClosed);
+        robot.jewelManip.setPosition(jewelClosePos);
+        robot.wheelL.setPosition(manipLeftClosed);
+        robot.wheelL.setPosition(manipRightClosed);
     }
 
 
@@ -48,41 +47,41 @@ public class AndrewsTeleOp extends OpMode {
 
         //intake
         if(gamepad2.x){
-            robot.manipLeft.setPosition(manipLeftOpen);
-            robot.manipRight.setPosition(manipRightOpen);
+            robot.wheelL.setPosition(manipLeftOpen);
+            robot.wheelR.setPosition(manipRightOpen);
             robot.ILM.setPower(1);
             robot.IRM.setPower(1);
         }
         //outtake
         else if(gamepad2.a && !robot.touch.isPressed()){
-            robot.manipLeft.setPosition(manipLeftOpen);
-            robot.manipRight.setPosition(manipRightOpen);
+            robot.wheelL.setPosition(manipLeftOpen);
+            robot.wheelR.setPosition(manipRightOpen);
             robot.ILM.setPower(-1);
             robot.IRM.setPower(-1);
         }
         //glyph lift
         if(gamepad2.right_bumper){
-            robot.manipRight.setPosition(manipRightClosed);
-            robot.manipLeft.setPosition(manipLeftClosed);
-            robot.RGLM.setPower(1);
-            robot.LGLM.setPower(1);
+            robot.wheelR.setPosition(manipRightClosed);
+            robot.wheelL.setPosition(manipLeftClosed);
+            robot.LRM.setPower(1);
+            robot.LLM.setPower(1);
         }
         else if(gamepad2.left_bumper){
-            robot.manipLeft.setPosition(manipLeftOpen);
-            robot.manipRight.setPosition(manipRightOpen);
-            robot.LGLM.setPower(-1);
-            robot.RGLM.setPower(-1);
+            robot.wheelL.setPosition(manipLeftOpen);
+            robot.wheelR.setPosition(manipRightOpen);
+            robot.LLM.setPower(-1);
+            robot.LRM.setPower(-1);
         }
         //scoring
         else if(gamepad2.y){
-            robot.manipLeft.setPosition(manipLeftOpen);
-            robot.manipRight.setPosition(manipRightOpen);
+            robot.wheelL.setPosition(manipLeftOpen);
+            robot.wheelR.setPosition(manipRightOpen);
             robot.ILM.setPower(0);
             robot.IRM.setPower(0);
         }
         else{
-            robot.manipLeft.setPosition(manipLeftClosed);
-            robot.manipRight.setPosition(manipRightClosed);
+            robot.wheelL.setPosition(manipLeftClosed);
+            robot.wheelR.setPosition(manipRightClosed);
             robot.ILM.setPower(0);
             robot.IRM.setPower(0);
         }

@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.TouchSensor;
+import com.sun.source.tree.BreakTree;
 
 /**
  * Created by BroncBotz on 10/17/2017.
@@ -13,10 +13,29 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
 
 public class AndrewBotHW {
 
-    public DcMotor FLM,FRM,BLM,BRM,ILM,IRM,LGLM,RGLM;
-    public TouchSensor touch;
+    /**
+     * FLM,FRM,BLM,BRM: The motors controlling the drivtrain
+     * ILM,IRM: The motors controlling the rotation of the intake wheels
+     *      Note: To control the pressure applied by the wheels, look at the servos defined below
+     * LLM,LRM: The motors controlling the lifting of the lift
+     */
+    public DcMotor FLM,FRM,BLM,BRM,ILM,IRM,LLM,LRM;
 
-    public Servo jewelManipulator, glyphGuideLeft,glyphGuideright, manipLeft, manipRight;
+    /**
+     * jewelManip: The servo for manipulating the jewel
+     * glyphGL,glyphGR: The servos that control the poles to grip the glyphs from the back of the robot
+     * wheelL,wheelR: The servos that control the wheel pressures at the front of the robot
+     *      NOTE: For the wheels at the fron of the robot, if looking to use notation, reference the motors above
+     * outtake393: The VEX 393 motor responsible for the outtake of the glyphs
+     * glyphGHL,glyphGHR: The helper servos in the fron of the robot that help provide pressure points through the poles onto the glyphs
+     */
+    //TODO: Figure out the CR Servo stuff and how to use it
+    //NOTE: The CR servos are not here right now
+    public Servo jewelManip, glyphGL, glyphGR, wheelL, wheelR, outtake393, glyphGHL, glyphGHR;
+
+    /**
+     * The sensor to detect the color of the jewels
+     */
     public ColorSensor colorSensor;
 
 
@@ -29,38 +48,45 @@ public class AndrewBotHW {
 
         hwMap = ahwMap;
 
+        /** Initialize Motors **/
+
+        //Left is currently reversed, this needs to be tested
         FLM = hwMap.get(DcMotor.class, "fl");
         FRM = hwMap.get(DcMotor.class, "fr");
-        FLM.setDirection(DcMotorSimple.Direction.REVERSE);
         BLM = hwMap.get(DcMotor.class, "bl");
         BRM = hwMap.get(DcMotor.class, "br");
+        FLM.setDirection(DcMotorSimple.Direction.REVERSE);
         BLM.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        jewelManipulator = hwMap.get(Servo.class, "jewelServo");
-        colorSensor = hwMap.get(ColorSensor.class, "colorSensor");
-        glyphGuideLeft = hwMap.get(Servo.class, "GGL");
-        glyphGuideright = hwMap.get(Servo.class,"GGR");
-        manipLeft = hwMap.get(Servo.class, "sML");
-        manipRight = hwMap.get(Servo.class, "sMR");
-
-        //ILM = hwMap.get(DcMotor.class, "il");
-        //IRM = hwMap.get(DcMotor.class, "ir");
-        //touch = hwMap.get(TouchSensor.class, "touch");
-
-        //LGLM = hwMap.get(DcMotor.class, "gl");
-        //RGLM = hwMap.get(DcMotor.class, "gr");
-
         FLM.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         FRM.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         BLM.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         BRM.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        BLM.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        //LGLM.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        //RGLM.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        //ILM.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        //IRM.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        //ILM.setDirection(DcMotorSimple.Direction.REVERSE);
+        //Left is currently reversed, this needs to be tested
+        ILM = hwMap.get(DcMotor.class, "il");
+        IRM = hwMap.get(DcMotor.class, "ir");
+        ILM.setDirection(DcMotorSimple.Direction.REVERSE);
+        ILM.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        IRM.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+
+        //Left is currently reversed, this needs to be tested
+        LLM = hwMap.get(DcMotor.class, "llm");
+        LRM = hwMap.get(DcMotor.class, "lrm");
+        LLM.setDirection(DcMotorSimple.Direction.REVERSE);
+        LLM.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        LRM.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        /** Initialize Servos **/
+
+        jewelManip = hwMap.get(Servo.class, "js");
+        colorSensor = hwMap.get(ColorSensor.class, "col");
+        glyphGL = hwMap.get(Servo.class, "ggl");
+        glyphGR = hwMap.get(Servo.class,"ggr");
+        wheelL = hwMap.get(Servo.class, "wl");
+        wheelR = hwMap.get(Servo.class, "wr");
+        outtake393 = hwMap.get(Servo.class, "vex");
+        glyphGHL = hwMap.get(Servo.class, "gghl");
+        glyphGHR = hwMap.get(Servo.class, "gghr");
 
     }
 
