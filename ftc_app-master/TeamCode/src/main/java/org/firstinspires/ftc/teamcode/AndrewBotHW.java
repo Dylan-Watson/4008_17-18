@@ -13,6 +13,24 @@ import com.sun.source.tree.BreakTree;
 
 public class AndrewBotHW {
 
+    /** Initialize Static Numerical Variables **/
+    double jewelUpPos = 0.1;
+    double jewelDownPos = 0.1;
+
+    double glyphClosePosBL = 0.1;
+    double glyphOpenPosBL = 0.1;
+    double glyphClosePosBR = 0.1;
+    double glyphOpenPosBR = 0.1;
+    double glyphClosePosFL = 0.1;
+    double glyphOpenPosFL = 0.1;
+    double glyphClosePosFR = 0.1;
+    double glyphOpenPosFR = 0.1;
+
+    double wheelOpenL = 0.1;
+    double wheelCloseL = 0.1;
+    double wheelOpenR = 0.1;
+    double wheelCloseR = 0.1;
+
     /**
      * FLM,FRM,BLM,BRM: The motors controlling the drivtrain
      * ILM,IRM: The motors controlling the rotation of the intake wheels
@@ -88,6 +106,13 @@ public class AndrewBotHW {
         glyphGHL = hwMap.get(Servo.class, "gghl");
         glyphGHR = hwMap.get(Servo.class, "gghr");
 
+    }
+
+    public void initializeRobotPositions(){
+        //put the jewel thing up
+        //set the poles to ungrip
+        //set wheels to grip
+        //set CR to intake position???
     }
 
 }

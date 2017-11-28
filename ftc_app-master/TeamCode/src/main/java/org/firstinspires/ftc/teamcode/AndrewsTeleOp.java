@@ -6,21 +6,17 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 /**
  * Created by BroncBotz on 10/17/2017.
  */
-@TeleOp(name ="andrewbot", group="")
+@TeleOp(name ="TeleOp", group="")
+
 
 public class AndrewsTeleOp extends OpMode {
 
     AndrewBotHW robot = new AndrewBotHW();
-    double jewelClosePos = 0.1;
-    double manipRightClosed = 0.2;
-    double manipLeftClosed = 0.2;
-    double manipRightOpen = 0.2;
-    double manipLeftOpen = 0.2;
-
 
     @Override
     public void init(){
         robot.init(hardwareMap);
+        robot.initializeRobotPositions();
         robot.jewelManip.setPosition(jewelClosePos);
         robot.wheelL.setPosition(manipLeftClosed);
         robot.wheelL.setPosition(manipRightClosed);
