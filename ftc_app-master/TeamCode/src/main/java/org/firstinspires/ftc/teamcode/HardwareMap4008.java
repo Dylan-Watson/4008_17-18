@@ -1,17 +1,19 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.hardware.Sensor;
+
+import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.sun.source.tree.BreakTree;
 
 /**
  * Created by BroncBotz on 10/17/2017.
  */
 
-public class AndrewBotHW {
+public class HardwareMap4008 {
 
     /** Initialize Static Numerical Variables **/
     double jewelUpPos = 0.1;
@@ -26,10 +28,10 @@ public class AndrewBotHW {
     double glyphClosePosFR = 0.1;
     double glyphOpenPosFR = 0.1;
 
-    double wheelOpenL = 0.1;
-    double wheelCloseL = 0.1;
     double wheelOpenR = 0.1;
     double wheelCloseR = 0.1;
+
+    public boolean isGripped = false;
 
     /**
      * FLM,FRM,BLM,BRM: The motors controlling the drivtrain
@@ -37,6 +39,7 @@ public class AndrewBotHW {
      *      Note: To control the pressure applied by the wheels, look at the servos defined below
      * LLM,LRM: The motors controlling the lifting of the lift
      */
+
     public DcMotor FLM,FRM,BLM,BRM,ILM,IRM,LLM,LRM;
 
     /**
@@ -49,18 +52,29 @@ public class AndrewBotHW {
      */
     //TODO: Figure out the CR Servo stuff and how to use it
     //NOTE: The CR servos are not here right now
-    public Servo jewelManip, glyphGL, glyphGR, wheelL, wheelR, outtake393, glyphGHL, glyphGHR;
+    //Default wheel position is closed. Only change to open when lifting
+    public Servo jewelManip;
+    public Servo glyphGL;
+    public Servo glyphGR;
+    public Servo wheelR;
+    public Servo outtake393;
+    public Servo glyphGHL;
+    public Servo glyphGHR;
 
     /**
-     * The sensor to detect the color of the jewels
+     * colorSensor: The sensor to detect the color of the jewels
+     * pot: The potentiometer for the lift
      */
     public ColorSensor colorSensor;
+    //public AnalogInput pot;
+    //double potRead = pot.getVoltage()/5 * 100;
+
 
 
     HardwareMap hwMap = null;
 
 
-    public AndrewBotHW(){}
+    public HardwareMap4008(){}
 
     public void init(HardwareMap ahwMap){
 
@@ -100,19 +114,55 @@ public class AndrewBotHW {
         colorSensor = hwMap.get(ColorSensor.class, "col");
         glyphGL = hwMap.get(Servo.class, "ggl");
         glyphGR = hwMap.get(Servo.class,"ggr");
-        wheelL = hwMap.get(Servo.class, "wl");
         wheelR = hwMap.get(Servo.class, "wr");
         outtake393 = hwMap.get(Servo.class, "vex");
         glyphGHL = hwMap.get(Servo.class, "gghl");
         glyphGHR = hwMap.get(Servo.class, "gghr");
 
+        initializeRobotPositions();
+
     }
 
     public void initializeRobotPositions(){
-        //put the jewel thing up
-        //set the poles to ungrip
-        //set wheels to grip
+        jewelManip.setPosition(jewelUpPos);
+        glyphGL.setPosition(glyphOpenPosBL);
+        glyphGR.setPosition(glyphOpenPosBR);
+        glyphGHL.setPosition(glyphOpenPosFL);
+        glyphGHR.setPosition(glyphOpenPosFR);
+        wheelR.setPosition(wheelCloseR);
         //set CR to intake position???
+    }
+
+    public void lowerJewel(){
+        jewelManip.setPosition(jewelDownPos);
+    }
+
+    public void raiseJewel(){
+        jewelManip.setPosition(jewelUpPos);
+    }
+
+    public void intakeGlyph(){
+        //make sure to check that the lift is down before even calling this method
+        wheelR.setPosition(wheelCloseR);
+        ILM.setPower(.5);
+        IRM.setPower(.5);
+    }
+
+    public void gripGlyph(){
+        //you can do a toggle cause its non-resetting servos
+        glyphGL.setPosition(glyphClosePosBL);
+        glyphGR.setPosition(glyphClosePosBR);
+        glyphGHL.setPosition(glyphClosePosFL);
+        glyphGHR.setPosition(glyphClosePosFR);
+        isGripped = true;
+    }
+
+    public void ungripGlyph(){
+        glyphGL.setPosition(glyphOpenPosBL);
+        glyphGR.setPosition(glyphOpenPosBR);
+        glyphGHL.setPosition(glyphOpenPosFL);
+        glyphGHR.setPosition(glyphOpenPosFR);
+        isGripped = false;
     }
 
 }
