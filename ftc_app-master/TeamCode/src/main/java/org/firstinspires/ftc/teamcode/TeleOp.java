@@ -22,6 +22,7 @@ public class TeleOp extends OpMode {
     @Override
     public void loop() {
 
+        /** Driver Controls **/
 
         double r = Math.hypot(-gamepad1.left_stick_x, gamepad1.left_stick_y);
         double robotangle = Math.atan2(gamepad1.left_stick_y, -gamepad1.left_stick_x) -Math.PI / 4;
@@ -36,9 +37,43 @@ public class TeleOp extends OpMode {
         robot.BLM.setPower(v3);
         robot.BRM.setPower(v4);
 
-       //intake
+       /** Operator Controls **/
 
+       //x is intake
 
+        //INTAKE ON GROUND
+        if(gamepad2.x){
+            //need to check that lift is down at some point before this
+            robot.intakeGlyph();
+        }
+        else if(gamepad2.y){
+            robot.outtakeGlyphOnGround();
+        }
+        else{
+            robot.stopIntake();
+        }
+
+        //MOVE ARM
+        if(gamepad2.left_bumper){
+            robot.lowerArm();
+        }
+        else if(gamepad2.right_bumper){
+            robot.raiseArm();
+        }
+        else{
+            robot.stopArm();
+        }
+
+        //OUTTAKEAIR
+        if(gamepad2.a){
+            robot.outtakeGlyphRaised();
+        }
+        else if(gamepad2.x){
+            //rotate the servos i havent programmed yet
+        }
+        else{
+            robot.stopRaisedOuttake();
+        }
     }
 
 

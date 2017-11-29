@@ -1,8 +1,5 @@
 package org.firstinspires.ftc.teamcode;
 
-import android.hardware.Sensor;
-
-import com.qualcomm.robotcore.hardware.AnalogInput;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -148,6 +145,22 @@ public class HardwareMap4008 {
         IRM.setPower(.5);
     }
 
+    public void stopIntake(){
+        ILM.setPower(0);
+        IRM.setPower(0);
+    }
+
+    public void openWheels(){
+        wheelR.setPosition(wheelOpenR);
+    }
+
+    public void outtakeGlyphOnGround(){
+        ungripGlyph();
+        wheelR.setPosition(wheelCloseR);
+        ILM.setPower(-.5);
+        IRM.setPower(-.5);
+    }
+
     public void gripGlyph(){
         //you can do a toggle cause its non-resetting servos
         glyphGL.setPosition(glyphClosePosBL);
@@ -163,6 +176,50 @@ public class HardwareMap4008 {
         glyphGHL.setPosition(glyphOpenPosFL);
         glyphGHR.setPosition(glyphOpenPosFR);
         isGripped = false;
+    }
+
+    public void raiseArm(){
+        openWheels();
+        gripGlyph();
+        LLM.setPower(.5);
+        LRM.setPower(.5);
+    }
+
+    public void lowerArm(){
+        LLM.setPower(.5);
+        LRM.setPower(.5);
+    }
+
+    public void stopArm(){
+        LLM.setPower(0);
+        LRM.setPower(0);
+    }
+
+    public void stopOperatorMotors(){
+        LLM.setPower(0);
+        LRM.setPower(0);
+        ILM.setPower(0);
+        IRM.setPower(0);
+    }
+
+    public void stopRobot(){
+        //only call this for auton
+        LLM.setPower(0);
+        LRM.setPower(0);
+        ILM.setPower(0);
+        IRM.setPower(0);
+        BLM.setPower(0);
+        BRM.setPower(0);
+        FLM.setPower(0);
+        FRM.setPower(0);
+    }
+
+    public void outtakeGlyphRaised(){
+        outtake393.setPosition(0);
+    }
+
+    public void stopRaisedOuttake(){
+        outtake393.setPosition(.5);
     }
 
 }
