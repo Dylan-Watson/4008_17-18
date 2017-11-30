@@ -64,15 +64,21 @@ public class TeleOp extends OpMode {
             robot.stopArm();
         }
 
-        //OUTTAKEAIR
         if(gamepad2.a){
             robot.outtakeGlyphRaised();
         }
-        else if(gamepad2.x){
-            //rotate the servos i havent programmed yet
-        }
         else{
             robot.stopRaisedOuttake();
+        }
+
+        if(gamepad2.b){
+            robot.raiseGlyphCR();
+        }
+        else if(gamepad2.b && gamepad2.dpad_right){
+            robot.lowerGlyphCR();
+        }
+        else{
+            robot.stopCRServos();
         }
     }
 

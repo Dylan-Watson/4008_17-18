@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.ServoImpl;
 
 /**
  * Created by BroncBotz on 10/17/2017.
@@ -57,6 +59,8 @@ public class HardwareMap4008 {
     public Servo outtake393;
     public Servo glyphGHL;
     public Servo glyphGHR;
+    public CRServo CRLeft;
+    public CRServo CRRight;
 
     /**
      * colorSensor: The sensor to detect the color of the jewels
@@ -115,6 +119,10 @@ public class HardwareMap4008 {
         outtake393 = hwMap.get(Servo.class, "vex");
         glyphGHL = hwMap.get(Servo.class, "gghl");
         glyphGHR = hwMap.get(Servo.class, "gghr");
+
+        CRLeft = hwMap.get(CRServo.class, "crl");
+        CRRight = hwMap.get(CRServo.class, "crr");
+        CRLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
         initializeRobotPositions();
 
@@ -220,6 +228,21 @@ public class HardwareMap4008 {
 
     public void stopRaisedOuttake(){
         outtake393.setPosition(.5);
+    }
+
+    public void raiseGlyphCR(){
+        CRLeft.setPower(.5);
+        CRRight.setPower(.5);
+    }
+
+    public void lowerGlyphCR(){
+        CRLeft.setPower(-.5);
+        CRRight.setPower(-.5);
+    }
+
+    public void stopCRServos(){
+        CRLeft.setPower(0);
+        CRRight.setPower(0);
     }
 
 }
