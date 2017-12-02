@@ -17,13 +17,15 @@ public class HardwareMap4008 {
     /** Initialize Static Numerical Variables **/
     double jewelUpPos = 0.1;
     double jewelDownPos = 0.1;
-
+//BR VALUES HAVE NOT BEEN TESTED, JUST DUMMY VALUES
     double glyphClosePosBL = 0.55;
     double glyphOpenPosBL = 0.00;
     double glyphClosePosFL = 1.00;
     double glyphOpenPosFL = 0.7;
     double glyphClosePosFR = 0.00;
     double glyphOpenPosFR = 0.3;
+    double glyphClosePosBR = 0.1;
+    double glyphOpenPosBR = 0.1;
 
     double wheelOpenR = 0.1;
     double wheelCloseR = 0.1;
@@ -65,7 +67,7 @@ public class HardwareMap4008 {
 
 
 
-    public Servo grabberFrontLeft, grabberRearLeft, grabberFrontRight, jewelManip;
+    public Servo grabberFrontLeft, grabberRearLeft, grabberFrontRight, grabberRearRight, jewelManip;
 
 
 
@@ -135,6 +137,7 @@ public class HardwareMap4008 {
         grabberFrontLeft = hwMap.get(Servo.class, "GBFL");
         grabberRearLeft = hwMap.get(Servo.class,"GBRL");
         grabberFrontRight = hwMap.get(Servo.class,"GBFR");
+        grabberRearRight = hwMap.get(Servo.class, "GBRR");
         CRLeft = hwMap.get(CRServo.class, "GRL");
         CRRight = hwMap.get(CRServo.class, "GRR");
         CRLeft.setDirection(CRServo.Direction.REVERSE);
@@ -183,6 +186,7 @@ public class HardwareMap4008 {
         grabberRearLeft.setPosition(glyphClosePosBL);
         grabberFrontLeft.setPosition(glyphClosePosFL);
         grabberFrontRight.setPosition(glyphClosePosFR);
+        grabberRearRight.setPosition(glyphClosePosBR);
         isGripped = true;
     }
 
@@ -191,6 +195,7 @@ public class HardwareMap4008 {
         grabberFrontRight.setPosition(glyphOpenPosFR);
         grabberRearLeft.setPosition(glyphOpenPosBL);
         grabberFrontLeft.setPosition(glyphOpenPosFL);
+        grabberRearRight.setPosition(glyphOpenPosBR);
 
         isGripped = false;
     }
