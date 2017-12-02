@@ -18,14 +18,12 @@ public class HardwareMap4008 {
     double jewelUpPos = 0.1;
     double jewelDownPos = 0.1;
 
-    double glyphClosePosBL = 0.1;
-    double glyphOpenPosBL = 0.1;
-    double glyphClosePosBR = 0.1;
-    double glyphOpenPosBR = 0.1;
-    double glyphClosePosFL = 0.1;
-    double glyphOpenPosFL = 0.1;
-    double glyphClosePosFR = 0.1;
-    double glyphOpenPosFR = 0.1;
+    double glyphClosePosBL = 0.55;
+    double glyphOpenPosBL = 0.00;
+    double glyphClosePosFL = 1.00;
+    double glyphOpenPosFL = 0.7;
+    double glyphClosePosFR = 0.00;
+    double glyphOpenPosFR = 0.3;
 
     double wheelOpenR = 0.1;
     double wheelCloseR = 0.1;
@@ -36,10 +34,10 @@ public class HardwareMap4008 {
      * FLM,FRM,BLM,BRM: The motors controlling the drivtrain
      * ILM,IRM: The motors controlling the rotation of the intake wheels
      *      Note: To control the pressure applied by the wheels, look at the servos defined below
-     * LLM,LRM: The motors controlling the lifting of the lift
+     * LAM,RAM: The motors controlling the lifting of the lift
      */
 
-    public DcMotor FLM,FRM,BLM,BRM,ILM,IRM,LLM,LRM;
+    public DcMotor FLM,FRM,BLM,BRM,ILM,IRM,LAM,RAM;
 
     /**
      * jewelManip: The servo for manipulating the jewel
@@ -52,15 +50,24 @@ public class HardwareMap4008 {
     //TODO: Figure out the CR Servo stuff and how to use it
     //NOTE: The CR servos are not here right now
     //Default wheel position is closed. Only change to open when lifting
+
+ /**
     public Servo jewelManip;
     public Servo glyphGL;
-    public Servo glyphGR;
+
     public Servo wheelR;
     public Servo outtake393;
-    public Servo glyphGHL;
-    public Servo glyphGHR;
+  */
+
+
     public CRServo CRLeft;
     public CRServo CRRight;
+
+
+
+    public Servo grabberFrontLeft, grabberRearLeft, grabberFrontRight, jewelManip;
+
+
 
     /**
      * colorSensor: The sensor to detect the color of the jewels
@@ -84,10 +91,10 @@ public class HardwareMap4008 {
         /** Initialize Motors **/
 
         //Left is currently reversed, this needs to be tested
-        FLM = hwMap.get(DcMotor.class, "fl");
-        FRM = hwMap.get(DcMotor.class, "fr");
-        BLM = hwMap.get(DcMotor.class, "bl");
-        BRM = hwMap.get(DcMotor.class, "br");
+        FLM = hwMap.get(DcMotor.class, "FL");
+        FRM = hwMap.get(DcMotor.class, "FR");
+        BLM = hwMap.get(DcMotor.class, "BL");
+        BRM = hwMap.get(DcMotor.class, "BR");
         FLM.setDirection(DcMotorSimple.Direction.REVERSE);
         BLM.setDirection(DcMotorSimple.Direction.REVERSE);
         FLM.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -96,46 +103,49 @@ public class HardwareMap4008 {
         BRM.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //Left is currently reversed, this needs to be tested
-        ILM = hwMap.get(DcMotor.class, "il");
-        IRM = hwMap.get(DcMotor.class, "ir");
+        ILM = hwMap.get(DcMotor.class, "IL");
+        IRM = hwMap.get(DcMotor.class, "IR");
         ILM.setDirection(DcMotorSimple.Direction.REVERSE);
         ILM.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         IRM.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         //Left is currently reversed, this needs to be tested
-        LLM = hwMap.get(DcMotor.class, "llm");
-        LRM = hwMap.get(DcMotor.class, "lrm");
-        LLM.setDirection(DcMotorSimple.Direction.REVERSE);
-        LLM.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        LRM.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        LAM = hwMap.get(DcMotor.class, "LA");
+        RAM = hwMap.get(DcMotor.class, "RA");
+        LAM.setDirection(DcMotorSimple.Direction.REVERSE);
+        LAM.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        RAM.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+
+
+
 
         /** Initialize Servos **/
 
         jewelManip = hwMap.get(Servo.class, "js");
         colorSensor = hwMap.get(ColorSensor.class, "col");
-        glyphGL = hwMap.get(Servo.class, "ggl");
-        glyphGR = hwMap.get(Servo.class,"ggr");
+/**        glyphGL = hwMap.get(Servo.class, "ggl");
+
         wheelR = hwMap.get(Servo.class, "wr");
         outtake393 = hwMap.get(Servo.class, "vex");
-        glyphGHL = hwMap.get(Servo.class, "gghl");
-        glyphGHR = hwMap.get(Servo.class, "gghr");
+    **/
 
-        CRLeft = hwMap.get(CRServo.class, "crl");
-        CRRight = hwMap.get(CRServo.class, "crr");
-        CRLeft.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        initializeRobotPositions();
+
+        grabberFrontLeft = hwMap.get(Servo.class, "GBFL");
+        grabberRearLeft = hwMap.get(Servo.class,"GBRL");
+        grabberFrontRight = hwMap.get(Servo.class,"GBFR");
+        CRLeft = hwMap.get(CRServo.class, "GRL");
+        CRRight = hwMap.get(CRServo.class, "GRR");
+        CRLeft.setDirection(CRServo.Direction.REVERSE);
+
+      //  initializeRobotPositions();
 
     }
 
     public void initializeRobotPositions(){
         jewelManip.setPosition(jewelUpPos);
-        glyphGL.setPosition(glyphOpenPosBL);
-        glyphGR.setPosition(glyphOpenPosBR);
-        glyphGHL.setPosition(glyphOpenPosFL);
-        glyphGHR.setPosition(glyphOpenPosFR);
-        wheelR.setPosition(wheelCloseR);
-        //set CR to intake position???
+        colorSensor.enableLed(true);
     }
 
     public void lowerJewel(){
@@ -145,12 +155,11 @@ public class HardwareMap4008 {
     public void raiseJewel(){
         jewelManip.setPosition(jewelUpPos);
     }
-
     public void intakeGlyph(){
         //make sure to check that the lift is down before even calling this method
-        wheelR.setPosition(wheelCloseR);
-        ILM.setPower(.5);
-        IRM.setPower(.5);
+       // wheelR.setPosition(wheelCloseR);
+        ILM.setPower(1);
+        IRM.setPower(1);
     }
 
     public void stopIntake(){
@@ -159,61 +168,61 @@ public class HardwareMap4008 {
     }
 
     public void openWheels(){
-        wheelR.setPosition(wheelOpenR);
+      //  wheelR.setPosition(wheelOpenR);
     }
 
     public void outtakeGlyphOnGround(){
         ungripGlyph();
-        wheelR.setPosition(wheelCloseR);
-        ILM.setPower(-.5);
-        IRM.setPower(-.5);
+     //   wheelR.setPosition(wheelCloseR);
+        ILM.setPower(-1);
+        IRM.setPower(-1);
     }
 
     public void gripGlyph(){
         //you can do a toggle cause its non-resetting servos
-        glyphGL.setPosition(glyphClosePosBL);
-        glyphGR.setPosition(glyphClosePosBR);
-        glyphGHL.setPosition(glyphClosePosFL);
-        glyphGHR.setPosition(glyphClosePosFR);
+        grabberRearLeft.setPosition(glyphClosePosBL);
+        grabberFrontLeft.setPosition(glyphClosePosFL);
+        grabberFrontRight.setPosition(glyphClosePosFR);
         isGripped = true;
     }
 
     public void ungripGlyph(){
-        glyphGL.setPosition(glyphOpenPosBL);
-        glyphGR.setPosition(glyphOpenPosBR);
-        glyphGHL.setPosition(glyphOpenPosFL);
-        glyphGHR.setPosition(glyphOpenPosFR);
+
+        grabberFrontRight.setPosition(glyphOpenPosFR);
+        grabberRearLeft.setPosition(glyphOpenPosBL);
+        grabberFrontLeft.setPosition(glyphOpenPosFL);
+
         isGripped = false;
     }
 
     public void raiseArm(){
         openWheels();
         gripGlyph();
-        LLM.setPower(.5);
-        LRM.setPower(.5);
+        LAM.setPower(.5);
+        RAM.setPower(.5);
     }
 
     public void lowerArm(){
-        LLM.setPower(.5);
-        LRM.setPower(.5);
+        LAM.setPower(-.5);
+        RAM.setPower(-.5);
     }
 
     public void stopArm(){
-        LLM.setPower(0);
-        LRM.setPower(0);
+        LAM.setPower(0);
+        RAM.setPower(0);
     }
 
     public void stopOperatorMotors(){
-        LLM.setPower(0);
-        LRM.setPower(0);
+        LAM.setPower(0);
+        RAM.setPower(0);
         ILM.setPower(0);
         IRM.setPower(0);
     }
 
     public void stopRobot(){
         //only call this for auton
-        LLM.setPower(0);
-        LRM.setPower(0);
+        LAM.setPower(0);
+        RAM.setPower(0);
         ILM.setPower(0);
         IRM.setPower(0);
         BLM.setPower(0);
@@ -223,26 +232,61 @@ public class HardwareMap4008 {
     }
 
     public void outtakeGlyphRaised(){
-        outtake393.setPosition(0);
+        //outtake393.setPosition(0);
     }
 
     public void stopRaisedOuttake(){
-        outtake393.setPosition(.5);
+        //outtake393.setPosition(.5);
     }
+
+
+    public void grabberHomePosition(){
+        CRLeft.setPower(.2);
+        CRRight.setPower(.2);
+    }
+
+    public void grabberTilt1(){
+        CRLeft.setPower(.3);
+        CRRight.setPower(.3);
+    }
+
+    public void grabberTilt2(){
+        CRLeft.setPower(.1);
+        CRRight.setPower(.1);
+    }
+
 
     public void raiseGlyphCR(){
+
         CRLeft.setPower(.5);
-        CRRight.setPower(.5);
+       CRRight.setPower(.5);
     }
 
-    public void lowerGlyphCR(){
-        CRLeft.setPower(-.5);
-        CRRight.setPower(-.5);
-    }
 
     public void stopCRServos(){
         CRLeft.setPower(0);
         CRRight.setPower(0);
+    }
+
+    public void driveFoward(){
+        BLM.setPower(.50);
+        BRM.setPower(.50);
+        FLM.setPower(.50);
+        FRM.setPower(.50);
+    }
+
+    public void driveBack(){
+        BLM.setPower(-.50);
+        BRM.setPower(-.50);
+        FLM.setPower(-.50);
+        FRM.setPower(-.50);
+    }
+
+    public void stopDrive(){
+        BLM.setPower(0);
+        BRM.setPower(0);
+        FLM.setPower(0);
+        FRM.setPower(0);
     }
 
 }

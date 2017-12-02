@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 /**
  * Created by BroncBotz on 10/17/2017.
  */
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name ="HardwareMap4008", group="")
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name ="Dec2Teleop", group="")
 
 
 public class TeleOp extends OpMode {
@@ -71,16 +71,22 @@ public class TeleOp extends OpMode {
             robot.stopRaisedOuttake();
         }
 
-        if(gamepad2.b){
-            robot.raiseGlyphCR();
+        if(gamepad2.dpad_up){
+            robot.grabberTilt2();
         }
-        else if(gamepad2.b && gamepad2.dpad_right){
-            robot.lowerGlyphCR();
+        if(gamepad2.dpad_left||gamepad2.dpad_right)
+        {
+            robot.grabberTilt1();
         }
-        else{
-            robot.stopCRServos();
-        }
-    }
+        if(gamepad2.dpad_down)
+            robot.grabberHomePosition();
+
+
+        if(gamepad2.left_stick_button)
+            robot.gripGlyph();
+        if(gamepad2.right_stick_button)
+            robot.ungripGlyph();
+ }
 
 
     @Override
