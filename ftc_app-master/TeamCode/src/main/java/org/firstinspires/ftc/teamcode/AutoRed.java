@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Autonomous(name=" Red Auton", group="")
-@Disabled
+//@Disabled
 public class AutoRed extends LinearOpMode {
 
     /* Declare OpMode members. */
@@ -33,10 +33,20 @@ public class AutoRed extends LinearOpMode {
 
         // Wait for the game to start (driver presses PLAY)
         robot.initializeRobotPositions();
+
         waitForStart();
+
+        robot.setMidJewel();
+
+        runtime.reset();
+        while(opModeIsActive() && (runtime.seconds() < 1)){}
 
         robot.lowerJewel();
 
+        while(opModeIsActive()){
+            telemetry.addData("Current Values", "Red: " + robot.colorSensor.red());
+            telemetry.addData("Current Values", "Blue: " + robot.colorSensor.blue());
+        }
 
     }
 }

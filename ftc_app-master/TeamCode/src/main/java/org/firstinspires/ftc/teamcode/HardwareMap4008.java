@@ -6,7 +6,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.ServoImpl;
 
 /**
  * Created by BroncBotz on 10/17/2017.
@@ -15,8 +14,13 @@ import com.qualcomm.robotcore.hardware.ServoImpl;
 public class HardwareMap4008 {
 
     /** Initialize Static Numerical Variables **/
-    double jewelUpPos = 0.1;
-    double jewelDownPos = 0.1;
+    double jewelUpPos = .43;
+    double jewelDownPos = 0.00;
+
+    double jewelMidPos = 0.45;
+    double jewelBackPos = 0.90;
+    double jewelFrontPos = 0.20;
+
 //BR VALUES HAVE NOT BEEN TESTED, JUST DUMMY VALUES
     double glyphClosePosBL = 0.55;
     double glyphOpenPosBL = 0.00;
@@ -42,7 +46,7 @@ public class HardwareMap4008 {
     public DcMotor FLM,FRM,BLM,BRM,ILM,IRM,LAM,RAM;
 
     /**
-     * jewelManip: The servo for manipulating the jewel
+     * jewelUpDown: The servo for manipulating the jewel
      * glyphGL,glyphGR: The servos that control the poles to grip the glyphs from the back of the robot
      * wheelL,wheelR: The servos that control the wheel pressures at the front of the robot
      *      NOTE: For the wheels at the fron of the robot, if looking to use notation, reference the motors above
@@ -54,7 +58,7 @@ public class HardwareMap4008 {
     //Default wheel position is closed. Only change to open when lifting
 
  /**
-    public Servo jewelManip;
+    public Servo jewelUpDown;
     public Servo glyphGL;
 
     public Servo wheelR;
@@ -67,7 +71,7 @@ public class HardwareMap4008 {
 
 
 
-    public Servo grabberFrontLeft, grabberRearLeft, grabberFrontRight, grabberRearRight, jewelManip;
+    public Servo grabberFrontLeft, grabberRearLeft, grabberFrontRight, grabberRearRight, jewelUpDown, jewelFrontBack;
 
 
 
@@ -124,17 +128,14 @@ public class HardwareMap4008 {
 
         /** Initialize Servos **/
 
-        jewelManip = hwMap.get(Servo.class, "js");
+        jewelUpDown = hwMap.get(Servo.class, "jud");
+        jewelFrontBack = hwMap.get(Servo.class, "jbf");
         colorSensor = hwMap.get(ColorSensor.class, "col");
-/**        glyphGL = hwMap.get(Servo.class, "ggl");
-
-        wheelR = hwMap.get(Servo.class, "wr");
-        outtake393 = hwMap.get(Servo.class, "vex");
-    **/
-
 
 
         grabberFrontLeft = hwMap.get(Servo.class, "GBFL");
+
+        grabberFrontLeft.setDirection(Servo.Direction.REVERSE);
         grabberRearLeft = hwMap.get(Servo.class,"GBRL");
         grabberFrontRight = hwMap.get(Servo.class,"GBFR");
         grabberRearRight = hwMap.get(Servo.class, "GBRR");
@@ -147,16 +148,30 @@ public class HardwareMap4008 {
     }
 
     public void initializeRobotPositions(){
-        jewelManip.setPosition(jewelUpPos);
         colorSensor.enableLed(true);
+        jewelUpDown.setPosition(jewelUpPos);
     }
 
     public void lowerJewel(){
-        jewelManip.setPosition(jewelDownPos);
+        colorSensor.enableLed(true);
+        jewelUpDown.setPosition(jewelDownPos);
+    }
+
+    public void setMidJewel(){
+        jewelFrontBack.setPosition(jewelMidPos);
+    }
+
+    public void setJewelBackPos(){
+        jewelFrontBack.setPosition(jewelBackPos);
+    }
+
+    public void setJewelFrontPos(){
+        jewelFrontBack.setPosition(jewelFrontPos);
     }
 
     public void raiseJewel(){
-        jewelManip.setPosition(jewelUpPos);
+        colorSensor.enableLed(false);
+        jewelUpDown.setPosition(jewelUpPos);
     }
     public void intakeGlyph(){
         //make sure to check that the lift is down before even calling this method
@@ -175,7 +190,7 @@ public class HardwareMap4008 {
     }
 
     public void outtakeGlyphOnGround(){
-        ungripGlyph();
+
      //   wheelR.setPosition(wheelCloseR);
         ILM.setPower(-1);
         IRM.setPower(-1);
@@ -202,17 +217,17 @@ public class HardwareMap4008 {
 
     public void raiseArm(){
         openWheels();
-        gripGlyph();
-        LAM.setPower(.5);
-        RAM.setPower(.5);
+
+        LAM.setPower(.8);
+        RAM.setPower(.8);
     }
 
     public void lowerArm(){
-        LAM.setPower(-.5);
-        RAM.setPower(-.5);
+        LAM.setPower(-.8);
+        RAM.setPower(-.8);
     }
 
-    public void stopArm(){
+public void stopArm(){
         LAM.setPower(0);
         RAM.setPower(0);
     }
@@ -249,15 +264,15 @@ public class HardwareMap4008 {
         CRLeft.setPower(.2);
         CRRight.setPower(.2);
     }
-
+    //High Score
     public void grabberTilt1(){
         CRLeft.setPower(.3);
         CRRight.setPower(.3);
     }
-
+    //Low Score
     public void grabberTilt2(){
-        CRLeft.setPower(.1);
-        CRRight.setPower(.1);
+        CRLeft.setPower(.05);
+        CRRight.setPower(.05);
     }
 
 

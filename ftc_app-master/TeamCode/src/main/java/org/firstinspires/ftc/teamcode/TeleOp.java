@@ -22,6 +22,9 @@ public class TeleOp extends OpMode {
     @Override
     public void loop() {
 
+
+        robot.raiseJewel();
+
         /** Driver Controls **/
 
         double r = Math.hypot(-gamepad1.left_stick_x, gamepad1.left_stick_y);
@@ -42,11 +45,11 @@ public class TeleOp extends OpMode {
        //x is intake
 
         //INTAKE ON GROUND
-        if(gamepad2.x){
+        if(gamepad1.left_bumper){
             //need to check that lift is down at some point before this
             robot.intakeGlyph();
         }
-        else if(gamepad2.y){
+        else if(gamepad1.right_bumper){
             robot.outtakeGlyphOnGround();
         }
         else{
@@ -64,6 +67,10 @@ public class TeleOp extends OpMode {
             robot.stopArm();
         }
 
+        if(gamepad2.y)
+            robot.ungripGlyph();
+        if(gamepad2.x)
+            robot.gripGlyph();
         if(gamepad2.a){
             robot.outtakeGlyphRaised();
         }
@@ -82,10 +89,6 @@ public class TeleOp extends OpMode {
             robot.grabberHomePosition();
 
 
-        if(gamepad2.left_stick_button)
-            robot.gripGlyph();
-        if(gamepad2.right_stick_button)
-            robot.ungripGlyph();
  }
 
 
