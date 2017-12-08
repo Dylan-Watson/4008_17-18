@@ -21,7 +21,6 @@ public class HardwareMap4008 {
     double jewelBackPos = 0.90;
     double jewelFrontPos = 0.20;
 
-//BR VALUES HAVE NOT BEEN TESTED, JUST DUMMY VALUES
     double glyphClosePosBL = 0.55;
     double glyphOpenPosBL = 0.00;
     double glyphClosePosFL = 1.00;
@@ -112,8 +111,8 @@ public class HardwareMap4008 {
         ILM = hwMap.get(DcMotor.class, "IL");
         IRM = hwMap.get(DcMotor.class, "IR");
         ILM.setDirection(DcMotorSimple.Direction.REVERSE);
-        ILM.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        IRM.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        ILM.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        IRM.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         //Left is currently reversed, this needs to be tested
         LAM = hwMap.get(DcMotor.class, "LA");
@@ -132,7 +131,6 @@ public class HardwareMap4008 {
         jewelFrontBack = hwMap.get(Servo.class, "jbf");
         colorSensor = hwMap.get(ColorSensor.class, "col");
 
-
         grabberFrontLeft = hwMap.get(Servo.class, "GBFL");
 
         grabberFrontLeft.setDirection(Servo.Direction.REVERSE);
@@ -150,6 +148,7 @@ public class HardwareMap4008 {
     public void initializeRobotPositions(){
         colorSensor.enableLed(true);
         jewelUpDown.setPosition(jewelUpPos);
+        setMidJewel();
     }
 
     public void lowerJewel(){
@@ -170,7 +169,7 @@ public class HardwareMap4008 {
     }
 
     public void raiseJewel(){
-        colorSensor.enableLed(false);
+        colorSensor.enableLed(true);
         jewelUpDown.setPosition(jewelUpPos);
     }
     public void intakeGlyph(){
@@ -275,6 +274,13 @@ public void stopArm(){
         CRRight.setPower(.05);
     }
 
+    public boolean jewelRed(){
+
+        if(colorSensor.red() > colorSensor.blue())
+            return true;
+        else
+            return false;
+    }
 
     public void raiseGlyphCR(){
 
